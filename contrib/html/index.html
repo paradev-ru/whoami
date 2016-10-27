@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Varvar Whoami Application</title>
+</head>
+<body>
+    <div class="loading">
+        <div class="loading-text">Processing data...</div>
+    </div>
+    <div class="error" style="display: none;">
+        <div class="error-text">An error occurred Please try again later</div>
+    </div>
+    <div class="id" style="display: none;">
+        <div class="id-secure-block" style="display: none;">
+            Your secure mark: <div class="id-secure" id="id-secure"></div>
+        </div>
+        <div class="id-ip-block" style="display: none;">
+            Your IP address: <div class="id-ip" id="id-ip"></div>
+        </div>
+    </div>
+    <script>
+        window.onload = function() {
+            function GetSecureID() {
+                var xhr = new XMLHttpRequest();
+                xhr.withCredentials = true;
+                xhr.open('POST', 'http://seasonvar.ru/serial-14498-Popadetc.html', true);
+
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        re = /var\ secureMark\ \=\ \"([a-z0-9]+)\"\;/i
+                        found = xhr.responseText.match(re);
+                        if (found.length >= 1) {
+                            id = found[1]
+                            SetValue('id-secure', id)
+                            return true
+                        }
+                    }
+                    ShowError();
+                };
+
+                xhr.onerror = function() {
+                    ShowError();
+                };
+
+                xhr.send();
+            }
+
+            function GetIPAddress() {
+                var xhr = new XMLHttpRequest();
+                xhr.withCredentials = true;
+                xhr.open('GET', 'http://freegeoip.net/json/', true);
+
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        SetValue('id-ip', data.ip)
+                        return true
+                    }
+                }
+
+                xhr.send();
+            }
+
+            function Hide(selector) {
+                e = document.querySelectorAll(selector);
+                for (var i = 0; i < e.length; i++) {
+                    e[i].style.display = 'none';
+                }
+            }
+
+            function Show(selector) {
+                e = document.querySelectorAll(selector);
+                for (var i = 0; i < e.length; i++) {
+                    e[i].style.display = 'block';
+                }
+            }
+
+            function SetValue(id, value) {
+                e = document.getElementById(id);
+                e.innerHTML = value;
+
+                Hide('.loading');
+                Show('.'+id+'-block');
+                Show('.id');
+            }
+
+            function ShowError() {
+                Hide('.id');
+                Hide('.loading');
+                Show('.error');
+            }
+
+            GetSecureID();
+            GetIPAddress();
+        };
+    </script>
+</body>
+</html>
