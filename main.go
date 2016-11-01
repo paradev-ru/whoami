@@ -19,13 +19,21 @@ func PrintSecureMark(url string) {
 		return
 	}
 
-	data := regexp.MustCompile(`var\ secureMark\ \=\ \"([a-z0-9]+)\"\;`).FindStringSubmatch(body)
-	if len(data) == 0 {
+	dataSecure := regexp.MustCompile(`var\ secureMark\ \=\ \"([a-z0-9]+)\"\;`).FindStringSubmatch(body)
+	if len(dataSecure) == 0 {
 		fmt.Println("Cant find secure mark")
 		return
 	}
 
-	fmt.Printf("Your secure mark: %s\n", data[1])
+	fmt.Printf("Your secure mark: %s\n", dataSecure[1])
+
+	dataComments := regexp.MustCompile(`.ru\/([a-z0-9]+)\/comments\/`).FindStringSubmatch(body)
+	if len(dataComments) == 0 {
+		fmt.Println("Cant find comments hash")
+		return
+	}
+
+	fmt.Printf("Your comments hash: %s\n", dataComments[1])
 }
 
 func PrintIPAddress(url string) {
