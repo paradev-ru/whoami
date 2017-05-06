@@ -3,5 +3,5 @@
 Another way:
 
 ```
-v=document.body.textContent.match(/\'secureMark\'\:\ \'(.+)\'/i)&&v[1]
+i=document.body.textContent.match(/\'secureMark\'\:\ \'(.+)\'/i),i&&i[1]
 ```
