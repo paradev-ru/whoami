@@ -28,7 +28,7 @@
 
                 xhr.onload = function() {
                     if (xhr.status == 200) {
-                        re = /var\ secureMark\ \=\ \"([a-z0-9]+)\"\;/i
+                        re = /\'secureMark\'\:\ \'([a-z0-9]+)\'/i
                         found = xhr.responseText.match(re);
                         if (found.length >= 1) {
                             id = found[1]

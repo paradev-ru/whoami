@@ -19,7 +19,7 @@ func PrintSecureMark(url string) {
 		return
 	}
 
-	dataSecure := regexp.MustCompile(`var\ secureMark\ \=\ \"([a-z0-9]+)\"\;`).FindStringSubmatch(body)
+	dataSecure := regexp.MustCompile(`\'secureMark\'\:\ \'([a-z0-9]+)\'`).FindStringSubmatch(body)
 	if len(dataSecure) == 0 {
 		fmt.Println("Cant find secure mark")
 		return
